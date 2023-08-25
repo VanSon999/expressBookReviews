@@ -34,7 +34,7 @@ public_users.get('/isbn/:isbn',function (req, res) {
         if(isbn){
             let book = books[isbn];
             if(book){
-                return rel({book: book});
+                return rel(book);
             }
             return rel({message: "Not found book with ISBN = " + isbn});
         }
@@ -44,7 +44,7 @@ public_users.get('/isbn/:isbn',function (req, res) {
     }, err =>{
         return res.status(403).json(err);
     })
- });
+});
   
 // Get book details based on author
 public_users.get('/author/:author',function (req, res) {
@@ -58,7 +58,7 @@ public_users.get('/author/:author',function (req, res) {
                     listBooks.push(book);
                 }
             }
-            return rel({books: listBooks});
+            return rel({booksbyauthor: listBooks});
         }
         return rej({message: "Param author missing"});
     }).then(val => {
@@ -80,7 +80,7 @@ public_users.get('/title/:title',function (req, res) {
                     listBooks.push(book);
                 }
             }
-            return rel({books: listBooks});
+            return rel({booksbytitle: listBooks});
         }
         return rej({message: "Param title missing"});
     }).then(val => {
@@ -96,7 +96,7 @@ public_users.get('/review/:isbn',function (req, res) {
     if(isbn){
         let book = books[isbn];
         if(book)
-            return res.status(200).json({review: book["reviews"]});
+            return res.status(200).json(book["reviews"]);
         return res.status(200).json({review: null});
     }
     return res.status(403).json({message: "Param isbn missing"});
